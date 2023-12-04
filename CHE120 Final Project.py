@@ -1,3 +1,8 @@
+# Name: Megan Lee    Initials: ML
+# Name: Tyler Nguyen    Initials: TN
+# Name: Julia Stolf    Initials: JS
+# Name: Steven Zhang    Initials: SZ
+
 import pygame
 import sys
 
