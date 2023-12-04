@@ -6,24 +6,20 @@
 import pygame
 import sys
 
-# Initialize Pygame
+# Initialize Pygame (SZ)
 pygame.init()
 
-# Start music
-pygame.mixer.music.load('Envici November - Original Instrument.mp3')   
-pygame.mixer.music.play(-1)
-
-# Constants
+# Constants (SZ)
 WIDTH, HEIGHT = 600, 400
 BALL_RADIUS = 10
 PADDLE_WIDTH, PADDLE_HEIGHT = 10, 60
 WHITE = (255, 255, 255)
 
-# Create the game window
+# Create the game window (SZ)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pong")
 
-# Initialize game variables
+# Initialize game variables (SZ)
 ball_pos = [WIDTH // 2, HEIGHT // 2]
 ball_speed = [4, 4]
 
@@ -36,34 +32,34 @@ right_score = 0
 
 font = pygame.font.Font(None, 36)
 
-# Game mode (0: Player vs Player, 1: Player vs AI)
+# Game mode (0: Player vs Player, 1: Player vs AI) (ML)
 game_mode = 0
 
-# Game states
+# Game states (ML)
 MENU = 0
 INSTRUCTIONS = 1
 PLAYING = 2
 GAME_OVER = 3
 
-# Initialize game state
+# Initialize game state (ML)
 game_state = MENU
 
-# Additional flag for handling game over display
+# Additional flag for handling game over display (ML)
 game_over_displayed = False
 
-# Create surfaces for different screens
+# Create surfaces for different screens (ML)
 menu_surface = pygame.Surface((WIDTH, HEIGHT))
 instructions_surface = pygame.Surface((WIDTH, HEIGHT))
 playing_surface = pygame.Surface((WIDTH, HEIGHT))
 game_over_surface = pygame.Surface((WIDTH, HEIGHT))  # New surface for game over screen
 
 def draw_objects():
-    # Draw paddles and ball
+    # Draw paddles and ball (TN)
     pygame.draw.rect(playing_surface, WHITE, (left_paddle_pos[0], left_paddle_pos[1], PADDLE_WIDTH, PADDLE_HEIGHT))
     pygame.draw.rect(playing_surface, WHITE, (right_paddle_pos[0], right_paddle_pos[1], PADDLE_WIDTH, PADDLE_HEIGHT))
     pygame.draw.circle(playing_surface, WHITE, (int(ball_pos[0]), int(ball_pos[1])), BALL_RADIUS)
 
-    # Draw scores
+    # Draw scores (TN)
     left_text = font.render(str(left_score), True, WHITE)
     right_text = font.render(str(right_score), True, WHITE)
     playing_surface.blit(left_text, (WIDTH // 4, 20))
@@ -99,7 +95,7 @@ def show_game_over():
     game_over_surface.blit(winner_text, (WIDTH // 2 - winner_text.get_width() // 2, 150))
     game_over_surface.blit(return_text, (WIDTH // 2 - return_text.get_width() // 2, 200))
 
-# Game loop
+# Game loop (TN)
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -125,7 +121,7 @@ while True:
                     right_score = 0
                     game_state = MENU
 
-    # Clear the surfaces
+    # Clear the surfaces (TN)
     menu_surface.fill((0, 0, 0))
     instructions_surface.fill((0, 0, 0))
     playing_surface.fill((0, 0, 0))
@@ -133,17 +129,17 @@ while True:
 
     if game_state == MENU:
         show_menu()
-        game_over_displayed = False  # Reset the flag when returning to the menu
+        game_over_displayed = False  # Reset the flag when returning to the menu (JS)
         screen.blit(menu_surface, (0, 0))
     elif game_state == INSTRUCTIONS:
         show_instructions()
-        game_over_displayed = False  # Reset the flag when going to instructions
+        game_over_displayed = False  # Reset the flag when going to instructions (JS)
         screen.blit(instructions_surface, (0, 0))
     elif game_state == PLAYING:
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_UP] and right_paddle_pos[1] > 0 and game_mode == 0:  # Disable control in Player vs AI mode
+        if keys[pygame.K_UP] and right_paddle_pos[1] > 0 and game_mode == 0:  # Disable control in Player vs AI mode (JS)
             right_paddle_pos[1] -= paddle_speed
-        if keys[pygame.K_DOWN] and right_paddle_pos[1] < HEIGHT - PADDLE_HEIGHT and game_mode == 0:  # Disable control in Player vs AI mode
+        if keys[pygame.K_DOWN] and right_paddle_pos[1] < HEIGHT - PADDLE_HEIGHT and game_mode == 0:  # Disable control in Player vs AI mode (JS)
             right_paddle_pos[1] += paddle_speed
         if keys[pygame.K_w] and left_paddle_pos[1] > 0:
             left_paddle_pos[1] -= paddle_speed
@@ -184,9 +180,9 @@ while True:
         if not game_over_displayed:
             show_game_over()
             screen.blit(game_over_surface, (0, 0))
-            game_over_displayed = True  # Set the flag when the game-over screen is displayed
+            game_over_displayed = True  # Set the flag when the game-over screen is displayed (JS)
 
-    # Draw game objects
+    # Draw game objects (JS)
     draw_objects()
     if game_state == PLAYING:
         screen.blit(playing_surface, (0, 0))
