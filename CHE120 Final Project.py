@@ -9,6 +9,10 @@ import sys
 # Initialize Pygame (SZ)
 pygame.init()
 
+# Start music (JS)
+pygame.mixer.music.load('Envici November - Original Instrument.mp3')   
+pygame.mixer.music.play(-1)
+
 # Constants (SZ)
 WIDTH, HEIGHT = 600, 400
 BALL_RADIUS = 10
