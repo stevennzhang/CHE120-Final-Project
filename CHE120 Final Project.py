@@ -3,6 +3,7 @@
 # Name: Julia Stolf    Initials: JS
 # Name: Steven Zhang    Initials: SZ
 
+#the following libraries and modules must be imported in order for the game functions to operate
 import pygame
 import sys
 
@@ -14,8 +15,11 @@ pygame.mixer.music.load('Envici November - Original Instrument.mp3')
 pygame.mixer.music.play(-1)
 
 # Constants (SZ)
+#dimensions of the game screen
 WIDTH, HEIGHT = 600, 400
+#dimensions of ball size
 BALL_RADIUS = 10
+#dimensions of ball
 PADDLE_WIDTH, PADDLE_HEIGHT = 10, 60
 WHITE = (255, 255, 255)
 
@@ -27,13 +31,16 @@ pygame.display.set_caption("Pong")
 ball_pos = [WIDTH // 2, HEIGHT // 2]
 ball_speed = [4, 4]
 
+#initalizes the size and position of the left and right paddles
 left_paddle_pos = [10, HEIGHT // 2 - PADDLE_HEIGHT // 2]
 right_paddle_pos = [WIDTH - 20, HEIGHT // 2 - PADDLE_HEIGHT // 2]
 paddle_speed = 3  # Reduced AI paddle speed
 
+#initalizes the starting score
 left_score = 0
 right_score = 0
 
+#initalizes font object used for rendering in-game text
 font = pygame.font.Font(None, 36)
 
 # Game mode (0: Player vs Player, 1: Player vs AI) (ML)
@@ -73,6 +80,7 @@ def draw_objects():
     playing_surface.blit(right_text, (3 * WIDTH // 4 - right_text.get_width(), 20))
 
 def show_menu():
+    #displays the menu in proper font and texts when activated
     menu_font = pygame.font.Font(None, 48)
     title_text = menu_font.render("Pong", True, WHITE)
     start_text = menu_font.render("Press Enter to Play", True, WHITE)  # Added text
@@ -83,6 +91,7 @@ def show_menu():
     menu_surface.blit(instructions_text, (WIDTH // 2 - instructions_text.get_width() // 2, 250))
 
 def show_instructions():
+    #displays instruction menu in proper font and texts when performed
     instructions_font = pygame.font.Font(None, 24)
     instruction_text = instructions_font.render("Use W and S to move the left paddle up and down.", True, WHITE)
     instruction_text2 = instructions_font.render("Press A to toggle between Player vs Player and Player vs AI.", True, WHITE)
@@ -97,6 +106,7 @@ def show_instructions():
     instructions_surface.blit(instruction_text5, (50, 250))
     
 def show_game_over():
+    #displays game over screen in proper font and position
     game_over_font = pygame.font.Font(None, 36)
     winner_text = game_over_font.render(f"Game over! {'Player A' if left_score == 5 else 'Player B'} has won!", True, WHITE)
     return_text = game_over_font.render("Press P to return to the main menu.", True, WHITE)
@@ -107,9 +117,11 @@ def show_game_over():
 # Game loop (TN)
 while True:
     for event in pygame.event.get():
+        #if quit is pressed, game ends and exits
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        #if a key is pressed, program considers if user wants to play, display instructions, etc.
         elif event.type == pygame.KEYDOWN:
             if game_state == MENU:
                 if event.key == pygame.K_RETURN:
@@ -136,6 +148,7 @@ while True:
     playing_surface.fill((0, 0, 0))
     game_over_surface.fill((0, 0, 0))
 
+    #the following statements evaluate whether the game state displays menu, instructions, playthrough, etc.
     if game_state == MENU:
         show_menu()
         game_over_displayed = False  # Reset the flag when returning to the menu (JS)
@@ -159,6 +172,7 @@ while True:
             ai_difficulty = (ai_difficulty + 1) % 2
         
         if game_mode == 1:
+            #evaluates how difficult ai mode is set
             if ai_difficulty == 0:    
                 if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
                     right_paddle_pos[1] -= paddle_speed
@@ -171,12 +185,14 @@ while True:
                     right_paddle_pos[1] += paddle_speed * 2
 
 
+        #the following reassigns the spped and position of ball
         ball_pos[0] += ball_speed[0]
         ball_pos[1] += ball_speed[1]
 
         if ball_pos[1] <= 0 or ball_pos[1] >= HEIGHT:
             ball_speed[1] = -ball_speed[1]
 
+        #the following evaluates whether the ball has hit the paddle
         if (
             left_paddle_pos[0] <= ball_pos[0] <= left_paddle_pos[0] + PADDLE_WIDTH and
             left_paddle_pos[1] <= ball_pos[1] <= left_paddle_pos[1] + PADDLE_HEIGHT
@@ -186,6 +202,7 @@ while True:
         ):
             ball_speed[0] = -ball_speed[0]
 
+        #if ball is scored on a side, the corresponding side will add a point to the scoring
         if ball_pos[0] <= 0:
             right_score += 1
             ball_pos = [WIDTH // 2, HEIGHT // 2]
@@ -193,6 +210,7 @@ while True:
             left_score += 1
             ball_pos = [WIDTH // 2, HEIGHT // 2]
 
+        #the following evaluates whether score is 5. if so, then game ends
         if left_score == 5 or right_score == 5:
             game_state = GAME_OVER
     elif game_state == GAME_OVER:
@@ -206,5 +224,7 @@ while True:
     if game_state == PLAYING:
         screen.blit(playing_surface, (0, 0))
 
+    #the following permits the screen to be refreshed
     pygame.display.flip()
+    #the following counts time during the game
     pygame.time.Clock().tick(60)
