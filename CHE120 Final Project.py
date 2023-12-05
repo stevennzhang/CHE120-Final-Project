@@ -46,8 +46,8 @@ font = pygame.font.Font(None, 36)
 # Game mode (0: Player vs Player, 1: Player vs AI) (ML)
 game_mode = 0
 
-# AI difficulty (0:easy, 1:hard)
-ai_difficulty = 0
+# AI difficulty (0:easy, 1:regular)
+ai_difficulty = 1
 
 # Game states (ML)
 MENU = 0
