@@ -175,14 +175,14 @@ while True:
             #evaluates how difficult ai mode is set
             if ai_difficulty == 0:    
                 if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                    right_paddle_pos[1] -= paddle_speed
+                    right_paddle_pos[1] -= paddle_speed * 0.75
                 elif ball_pos[1] > right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                    right_paddle_pos[1] += paddle_speed
+                    right_paddle_pos[1] += paddle_speed * 0.75
             elif ai_difficulty == 1:
                 if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                    right_paddle_pos[1] -= paddle_speed * 1.25
+                    right_paddle_pos[1] -= paddle_speed 
                 elif ball_pos[1] > right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                    right_paddle_pos[1] += paddle_speed * 1.25
+                    right_paddle_pos[1] += paddle_speed
 
 
         #the following reassigns the spped and position of ball
