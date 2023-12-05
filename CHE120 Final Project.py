@@ -39,6 +39,9 @@ font = pygame.font.Font(None, 36)
 # Game mode (0: Player vs Player, 1: Player vs AI) (ML)
 game_mode = 0
 
+# AI difficulty (0:easy, 1:hard)
+ai_difficulty = 0
+
 # Game states (ML)
 MENU = 0
 INSTRUCTIONS = 1
@@ -83,14 +86,16 @@ def show_instructions():
     instructions_font = pygame.font.Font(None, 24)
     instruction_text = instructions_font.render("Use W and S to move the left paddle up and down.", True, WHITE)
     instruction_text2 = instructions_font.render("Press A to toggle between Player vs Player and Player vs AI.", True, WHITE)
-    instruction_text3 = instructions_font.render("Press Esc to return to the main menu.", True, WHITE)
-    instruction_text4 = instructions_font.render("Game ends when either player/AI reaches a score of 5.", True, WHITE)
+    instruction_text3 = instructions_font.render("If Player vs AI. is enabled, Press D to toggle between AI difficulty", True, WHITE)
+    instruction_text4 = instructions_font.render("Press Esc to return to the main menu.", True, WHITE)
+    instruction_text5 = instructions_font.render("Game ends when either player/AI reaches a score of 5.", True, WHITE)
 
     instructions_surface.blit(instruction_text, (50, 50))
     instructions_surface.blit(instruction_text2, (50, 100))
     instructions_surface.blit(instruction_text3, (50, 150))
     instructions_surface.blit(instruction_text4, (50, 200))
-
+    instructions_surface.blit(instruction_text5, (50, 250))
+    
 def show_game_over():
     game_over_font = pygame.font.Font(None, 36)
     winner_text = game_over_font.render(f"Game over! {'Player A' if left_score == 5 else 'Player B'} has won!", True, WHITE)
@@ -149,12 +154,22 @@ while True:
             left_paddle_pos[1] -= paddle_speed
         if keys[pygame.K_s] and left_paddle_pos[1] < HEIGHT - PADDLE_HEIGHT:
             left_paddle_pos[1] += paddle_speed
-
+            
+        if keys[pygame.K_d]: #toggle ai difficulty
+            ai_difficulty = (ai_difficulty + 1) % 2
+        
         if game_mode == 1:
-            if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                right_paddle_pos[1] -= paddle_speed
-            elif ball_pos[1] > right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                right_paddle_pos[1] += paddle_speed
+            if ai_difficulty == 0:    
+                if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
+                    right_paddle_pos[1] -= paddle_speed
+                elif ball_pos[1] > right_paddle_pos[1] + PADDLE_HEIGHT // 2:
+                    right_paddle_pos[1] += paddle_speed
+            elif ai_difficulty == 1:
+                if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
+                    right_paddle_pos[1] -= paddle_speed * 2
+                elif ball_pos[1] > right_paddle_pos[1] + PADDLE_HEIGHT // 2:
+                    right_paddle_pos[1] += paddle_speed * 2
+
 
         ball_pos[0] += ball_speed[0]
         ball_pos[1] += ball_speed[1]
