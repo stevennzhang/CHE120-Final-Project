@@ -39,6 +39,9 @@ font = pygame.font.Font(None, 36)
 # Game mode (0: Player vs Player, 1: Player vs AI) (ML)
 game_mode = 0
 
+# AI difficulty (0:easy, 1:hard)
+ai_difficulty = 0
+
 # Game states (ML)
 MENU = 0
 INSTRUCTIONS = 1
@@ -149,12 +152,22 @@ while True:
             left_paddle_pos[1] -= paddle_speed
         if keys[pygame.K_s] and left_paddle_pos[1] < HEIGHT - PADDLE_HEIGHT:
             left_paddle_pos[1] += paddle_speed
-
+            
+        if keys[pygame.K_d]: #toggle ai difficulty
+            ai_difficulty = (ai_difficulty + 1) % 2
+        
         if game_mode == 1:
-            if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                right_paddle_pos[1] -= paddle_speed
-            elif ball_pos[1] > right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                right_paddle_pos[1] += paddle_speed
+            if ai_difficulty == 0:    
+                if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
+                    right_paddle_pos[1] -= paddle_speed
+                elif ball_pos[1] > right_paddle_pos[1] + PADDLE_HEIGHT // 2:
+                    right_paddle_pos[1] += paddle_speed
+            elif ai_difficulty == 1:
+                if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
+                    right_paddle_pos[1] -= paddle_speed * 2.5
+                elif ball_pos[1] > right_paddle_pos[1] + PADDLE_HEIGHT // 2:
+                    right_paddle_pos[1] += paddle_speed * 2.5
+
 
         ball_pos[0] += ball_speed[0]
         ball_pos[1] += ball_speed[1]
