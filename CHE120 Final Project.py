@@ -180,9 +180,9 @@ while True:
                     right_paddle_pos[1] += paddle_speed
             elif ai_difficulty == 1:
                 if ball_pos[1] < right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                    right_paddle_pos[1] -= paddle_speed * 1.5
+                    right_paddle_pos[1] -= paddle_speed * 1.25
                 elif ball_pos[1] > right_paddle_pos[1] + PADDLE_HEIGHT // 2:
-                    right_paddle_pos[1] += paddle_speed * 1.5
+                    right_paddle_pos[1] += paddle_speed * 1.25
 
 
         #the following reassigns the spped and position of ball
